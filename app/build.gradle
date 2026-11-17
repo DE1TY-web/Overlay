@@ -20,15 +20,3 @@ android {
         jvmTarget = '17'
     }
 }
-plugins { id "com.android.application" }
-android {
-    namespace "com.x.overlay"
-    compileSdk 34
-    defaultConfig {
-        applicationId "com.x.overlay"
-        minSdk 26
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
-    }
-}
