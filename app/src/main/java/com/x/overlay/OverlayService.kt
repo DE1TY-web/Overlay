@@ -15,7 +15,7 @@ class OverlayService : Service() {
     override fun onStartCommand(i: Intent?, f: Int, id: Int): Int {
         val wm = getSystemService(WINDOW_SERVICE) as WindowManager
         val v = object : View(this) {
-            val p = Paint().apply { color = Color.RED; textSize = 60f }
+            val p = Paint().apply { color = Color.RED; textSize = 60f; isAntiAlias = true }
             override fun onDraw(c: Canvas) {
                 super.onDraw(c)
                 c.drawText("OVERLAY OK", 100f, 300f, p)
