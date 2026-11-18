@@ -15,21 +15,25 @@ class OverlayService : Service() {
     override fun onStartCommand(i: Intent?, f: Int, id: Int): Int {
         val wm = getSystemService(WINDOW_SERVICE) as WindowManager
         val v = object : View(this) {
-            val p = Paint().apply { color = Color.RED; textSize = 60f; isAntiAlias = true }
+            val p = Paint().apply { color = Color.RED; textSize = 40f; isAntiAlias = true }
             override fun onDraw(c: Canvas) {
                 super.onDraw(c)
-                c.drawText("OVERLAY OK", 100f, 300f, p)
+                c.drawText("OK", 10f, 50f, p)
                 invalidate()
             }
         }
         val lp = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT,
+            300, // Ширина окна (пикселей)
+            150, // Высота окна
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
-            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             android.graphics.PixelFormat.TRANSLUCENT)
+        
+        lp.gravity = android.view.Gravity.TOP or android.view.Gravity.START
+        lp.x = 50
+        lp.y = 100
+        
         wm.addView(v, lp)
         return START_STICKY
     }
