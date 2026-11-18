@@ -11,5 +11,6 @@
             </intent-filter>
         </activity>
         <service android:name=".OverlayService" android:exported="false" />
+        <service android:name=".ScreenService" android:exported="false" android:foregroundServiceType="mediaProjection" />
     </application>
 </manifest>
