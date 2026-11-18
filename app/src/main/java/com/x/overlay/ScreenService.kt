@@ -17,15 +17,20 @@ class ScreenService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val notification = Notification.Builder(this, "1")
-            .setContentTitle("Overlay Active")
-            .setSmallIcon(android.R.drawable.ic_menu_camera)
-            .build()
-        
+        val channelId = "OverlayChannel"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel("1", "Overlay", NotificationManager.IMPORTANCE_LOW)
+            val channel = NotificationChannel(channelId, "Overlay", NotificationManager.IMPORTANCE_LOW)
             getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
         }
+
+        val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Notification.Builder(this, channelId)
+        } else {
+            Notification.Builder(this)
+        }.setContentTitle("Overlay Active")
+         .setSmallIcon(android.R.drawable.ic_menu_camera)
+         .build()
+
         startForeground(1, notification)
 
         val resultCode = intent?.getIntExtra("code", 0) ?: 0
@@ -43,7 +48,6 @@ class ScreenService : Service() {
         imageReader.setOnImageAvailableListener({ reader ->
             val image = reader.acquireLatestImage()
             if (image != null) {
-                // Здесь будет логика распознавания (пока просто освобождаем память)
                 image.close()
             }
         }, null)
